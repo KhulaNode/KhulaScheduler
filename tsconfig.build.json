@@ -9,7 +9,8 @@
     "rootDir": "./src",
     "jsx": "react-jsx",
     "module": "esnext",
-    "target": "es2019"
+    "target": "es2019",
+    "incremental": false
   },
   "include": [
     "src/index.ts",
@@ -29,3 +30,4 @@
     "src/providers/providers.tsx",
     "src/components/ui/sonner.tsx"
   ]
+}

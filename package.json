@@ -32,7 +32,9 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "pack:check": "npm pack --dry-run"
+    "pack:check": "npm pack --dry-run",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
