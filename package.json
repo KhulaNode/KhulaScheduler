@@ -1,6 +1,6 @@
 {
   "name": "@khulanode/khula-scheduler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "KhulaNode-owned scheduler library forked from mina-scheduler for direct React integration.",
   "license": "MIT",
   "main": "./dist/index.js",
