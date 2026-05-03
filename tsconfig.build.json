@@ -1,0 +1,31 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "target": "es2019"
+  },
+  "include": [
+    "src/index.ts",
+    "src/components/**/*.ts",
+    "src/components/**/*.tsx",
+    "src/hooks/**/*.ts",
+    "src/hooks/**/*.tsx",
+    "src/lib/**/*.ts",
+    "src/lib/**/*.tsx",
+    "src/providers/modal-context.tsx",
+    "src/providers/schedular-provider.tsx",
+    "src/types/**/*.ts",
+    "src/types/**/*.tsx"
+  ],
+  "exclude": [
+    "src/app/**/*",
+    "src/providers/providers.tsx",
+    "src/components/ui/sonner.tsx"
+  ]

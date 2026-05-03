@@ -1,12 +1,38 @@
 {
-  "name": "mina-scheduler",
+  "name": "@khulanode/khula-scheduler",
   "version": "0.1.0",
-  "private": true,
+  "description": "KhulaNode-owned scheduler library forked from mina-scheduler for direct React integration.",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./src/app/globals.css"
+  },
+  "files": [
+    "dist",
+    "src/app/globals.css",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KhulaNode/KhulaScheduler.git"
+  },
+  "homepage": "https://github.com/KhulaNode/KhulaScheduler",
+  "bugs": {
+    "url": "https://github.com/KhulaNode/KhulaScheduler/issues"
+  },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "pack:check": "npm pack --dry-run"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
@@ -43,12 +69,8 @@
     "embla-carousel-react": "^8.5.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.483.0",
-    "motion": "^12.5.0",
-    "next": "15.2.3",
-    "next-themes": "^0.4.6",
-    "react": "^19.0.0",
+    "framer-motion": "^12.10.5",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.5.0",
     "react-resizable-panels": "^2.1.7",
@@ -60,12 +82,18 @@
     "vaul": "^1.1.2",
     "zod": "^3.24.2"
   },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "next": "15.2.3",
     "tailwindcss": "^4",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5"
   }
 }

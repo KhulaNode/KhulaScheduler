@@ -1,263 +1,73 @@
-# Mina Scheduler Library
+# KhulaScheduler
 
-Welcome to the **Mina Scheduler Library**, a customizable and flexible calendar component for React that allows you to manage and display events in day, week, or month views. This library uses **Next UI** components for its user interface, so to ensure a consistent UI experience, make sure to use it inside a **Next UI** project.
+`KhulaScheduler` is a React scheduler/calendar library for day, week, and month
+views. It is intended for product teams that want to own scheduling UI inside
+their own app rather than wiring in a separate scheduling platform.
 
-## Features
+This fork is maintained by KhulaNode for direct product integration.
 
-- **Day, Week, Month Views:** Switch between different calendar views with ease.
-- **Event Management:** Add, update, and delete events with built-in form validation.
-- **Customizable UI:** Easily customize the look and feel of the calendar, including buttons, tabs, and event modals.
-- **Mobile-Friendly:** Responsive design optimized for mobile devices.
-- **Framer Motion Animations:** Smooth transitions between views.
-- **Zod Validation:** Schema validation for ensuring valid event data.
-- **Shadcn UI Integration:** Leverages Shadcn UI for a seamless user interface.
+## What it provides
 
+- day, week, and month scheduler views
+- add, update, and delete event flows
+- customizable buttons, tabs, and event modals
+- provider-based state management
+- exported event types and utility hooks
 
-## Demo
-### Live Demo : https://mina-scheduler.vercel.app/
-
-![alt text](readme-assets/calendar-sc-1.png)
-![alt text](readme-assets/calendar-sc-2.png)
-![alt text](readme-assets/calendar-sc-3.png)
-![alt text](readme-assets/calendar-sc-4.png)
-![alt text](readme-assets/calendar-sc-5.png)
-![alt text](readme-assets/calendar-sc-6.png)
-![alt text](readme-assets/calendar-sc-1-light.png)
-
-
-
-## Installation
-
-To install the library, run:
+## Install
 
 ```bash
-npm install mina-scheduler
+npm install @khulanode/khula-scheduler
 ```
 
-## Github Repo
-https://github.com/Mina-Massoud/next-ui-full-calendar
-
-## Basic Usage
-
-Here’s how you can get started using the **SchedulerProvider** and **SchedularView** components in your React project with minimal setup:
+## Basic usage
 
 ```tsx
 "use client";
 
-import { SchedulerProvider, SchedularView } from "mina-scheduler";
+import {
+  KhulaScheduler,
+  SchedulerProvider,
+  type Event,
+} from "@khulanode/khula-scheduler";
 
-
-export default function Home() {
-  return (
-    <section className="flex w-full flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <SchedulerProvider>
-        <SchedularView />
-      </SchedulerProvider>
-    </section>
-  );
-}
-```
-
-## Setting Initial Events in the Scheduler Component
-
-The `SchedulerProvider` and `useScheduler` hook allow you to manage and set initial events in the scheduler. Here’s a guide to set up initial events and integrate them into your scheduling component.
-
-#### Step 1: Import Required Components and Types
-
-Ensure you Event types and your necessary modules:
-
-```typescript
-"use client";
-
-import { Event } from "@/dist";
-
-```
-
-#### Step 2: Define Initial Event Data
-
-To simulate initial events, create an array of events, each structured as an `Event` type. In this example, `endDate` is set to one hour after `startDate`.
-
-```typescript
-const events = [
+const initialEvents: Event[] = [
   {
-    id: "1d4c5c73-b5fa-4f67-bb6e-1d5d66cbd57d",
-    title: "Kickoff Meeting.",
-    description: "Initial project kickoff with stakeholders.",
-    startDate: new Date(), // today's date
-    endDate: new Date(new Date().getTime() + 60 * 60 * 1000), // one hour later
+    id: "evt-1",
+    title: "Intro session",
+    startDate: new Date(),
+    endDate: new Date(Date.now() + 60 * 60 * 1000),
     variant: "primary",
   },
-] as Event[];
-```
+];
 
-
-#### Step 3: Use `SchedulerProvider` to Initialize State
-
-Wrap your main content in `SchedulerProvider`, passing `initialState` and any other props like `weekStartsOn`:
-
-```typescript
-<SchedulerProvider initialState={events} weekStartsOn="monday">
-  <SchedulerWrapper
-    classNames={{
-      tabs: {
-        panel: "pt-3",
-      },
-    }}
-  />
-</SchedulerProvider>
-```
-
-#### Optional: Dispatch Events with `useScheduler` (Optional)
-
-The `useScheduler` hook provides access to the `dispatch` function, allowing you to set events dynamically after the component mounts. However, **it’s not recommended to use `useScheduler` at the top level** of the component. If you use it, ensure that `SchedulerProvider` is applied at a higher level in the component tree to provide the necessary context.
-
-
-```typescript
-const { dispatch } = useScheduler();
-
-useEffect(() => {
-  dispatch({ type: "SET_EVENTS", payload: events });
-}, []);
-```
-
-
-
-## Customized Usage
-
-You can customize the calendar by passing custom views, buttons, and event modals using the `SchedularView` and `SchedulerProvider` props:
-
-```tsx
-"use client";
-
-import { SchedulerProvider, SchedularView } from "mina-scheduler";
-
-
-export default function Home() {
+export function SchedulerExample() {
   return (
-    <section className="flex w-full flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <SchedulerProvider>
-        <SchedularView
-          classNames={{
-            buttons: {
-              addEvent: "bg-red-500",
-              next: "bg-blue-500",
-              prev: "bg-green-500",
-            },
-          }}
-          views={{ views: ["day", "month", "week"], mobileViews: ["day"] }}
-          CustomComponents={{
-            CustomEventModal: {
-              CustomAddEventModal: {
-                title: "Custom Add Event",
-                CustomForm: MyCustomForm,
-              },
-            },
-          }}
-        />
-      </SchedulerProvider>
-    </section>
+    <SchedulerProvider initialState={initialEvents} weekStartsOn="monday">
+      <KhulaScheduler />
+    </SchedulerProvider>
   );
 }
-
-const MyCustomForm: React.FC<{ register: any; errors: any }> = ({
-  register,
-  errors,
-}) => (
-  <>
-    <input
-      {...register("title")}
-      placeholder="Custom Event Name"
-      className={`input ${errors.title ? "input-error" : ""}`}
-    />
-    {errors.title && (
-      <span className="error-message">{errors.title.message}</span>
-    )}
-
-    <textarea
-      {...register("description")}
-      placeholder="Custom Description"
-      className="textarea"
-    />
-
-    <input
-      {...register("startDate")}
-      type="date"
-      className={`input ${errors.startDate ? "input-error" : ""}`}
-    />
-
-    <input
-      {...register("endDate")}
-      type="date"
-      className={`input ${errors.endDate ? "input-error" : ""}`}
-    />
-
-    <button type="submit" className="btn">
-      Submit
-    </button>
-  </>
-);
 ```
 
-## API Documentation
+## Notes for host apps
 
-### SchedulerProvider
+- This package ships React components and Tailwind utility class names. Your app
+  must provide the Tailwind/shadcn-compatible styling environment.
+- If your Tailwind setup does not scan package code inside `node_modules`, add
+  `@khulanode/khula-scheduler` to your scan/content configuration.
+- This package provides scheduler UI and local event-state flow. Your product
+  remains responsible for auth, persistence, booking rules, and access gating.
 
-The `SchedulerProvider` component wraps the calendar and provides necessary context and state management for the events and calendar views.
+## Credits
 
-#### Props:
-- **onAddEvent** `(optional)`: `(event: Event) => void` – Callback triggered when an event is added.
-- **onUpdateEvent** `(optional)`: `(event: Event) => void` – Callback triggered when an event is updated.
-- **onDeleteEvent** `(optional)`: `(id: string) => void` – Callback triggered when an event is deleted.
-- **weekStartsOn** `(optional)`: `"sunday"` | `"monday"` – Specifies the starting day of the week. Defaults to `"sunday"`.
-- **children**: `ReactNode` – The children components to render within the provider.
+`KhulaScheduler` is based on the upstream `mina-scheduler` project by
+[Mina Massoud](https://mina-massoud.com/).
 
-### SchedularView
+- Upstream repository: https://github.com/Mina-Massoud/mina-scheduler
 
-This component is the main calendar view. It supports day, week, and month views, as well as custom components for event modals and buttons.
-
-#### Props:
-- **views** `(optional)`: `Views` – Specify which views (day, week, month) are available and which are shown on mobile.
-  - **views**: `("day" | "week" | "month")[]` – The available views for desktop.
-  - **mobileViews**: `("day" | "week" | "month")[]` – The available views for mobile devices.
-
-- **CustomComponents** `(optional)`: `CustomComponents` – Customize components such as event modals, buttons, and tabs.
-  - **CustomEventModal**: Customize event modals, such as the Add Event form.
-  - **customTabs**: Customize the tabs for Day, Week, and Month.
-  
-- **classNames** `(optional)`: `ClassNames` – Customize the styling of buttons, tabs, and other elements.
-
-### useScheduler
-
-Here’s how you can structure the documentation for the `useScheduler` hook in your library README, making it suitable for users looking to understand how to use the hook effectively.
-
----
-
-## `useScheduler` Hook
-
-The `useScheduler` hook is a custom React hook that provides access to the `SchedulerContext`. It allows components to access the current state of the scheduler, various utility functions (getters), and functions for modifying the state (handlers).
-
-### Usage
-
-To use the `useScheduler` hook, import it into your component and call it to access the scheduler's state, dispatch function, getters, and handlers.
-
-```tsx
-import { useScheduler } from "mina-scheduler";
-
-const MyComponent = () => {
-  const { events, dispatch, getters, handlers } = useScheduler();
-
-  // Example of using the dispatch to add an event
-  const addEvent = (event) => {
-    dispatch({ type: "ADD_EVENT", payload: event });
-  };
-
-  return (
-    <div>
-      {/* Render events */}
-      {events.map((event) => (
-        <div key={event.id}>{event.title}</div>
-      ))}
-    </div>
+This fork keeps upstream credit intact while adapting the package for
+KhulaNode-owned installation and product integration.
   );
 };
 ```
